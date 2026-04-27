@@ -1,0 +1,87 @@
+/* system route
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define LEN (105)
+
+typedef struct node {
+    char s[LEN];
+    struct node *prev;
+    struct node *next;
+} Node;
+
+
+void que(Node *head, Node *tail, char *str)
+{
+    Node *p = (Node *)calloc(1, sizeof(Node));
+    Node *prev;
+
+    strcpy(p->s, str);
+
+    prev = tail->prev;
+    p->prev = prev;
+    prev->next = p;
+    tail->prev = p;
+    p->next = tail;
+
+}
+
+void prt(Node *head, Node *tail)
+{
+    Node *p = head->next;
+    while (p)
+    {
+        printf("%s\n", p->s);
+        p = p->next;
+    }
+}
+
+void destroy(Node *head, Node *tail)
+{
+    Node *prev, *curr, *next;
+
+    curr = head->next;
+    prev = curr->prev;
+    next = curr->next;
+    while (curr)
+    {
+        prev->next = next;
+        next->prev = prev;
+        free(curr);
+        curr = next;
+    }
+    
+    free(head);
+    free(tail);
+}
+
+int main()
+{
+    int n, i;
+    char buf[LEN];
+    Node *head = (Node *)calloc(1, sizeof(Node));
+    Node *tail = (Node *)calloc(1, sizeof(Node));
+
+    head->next = tail;
+    tail->prev = head;
+
+    scanf("%d", &n);
+    for (i = 0; i < n; ++i)
+    {
+        scanf("%s", buf);
+        buf[strcspn(buf, "\n")] = 0;
+
+        if (strcmp(buf, ".."))
+    }
+
+    // que(head, tail, "..");
+    // que(head, tail, "dir1");
+    // que(head, tail, "dir2");
+
+    prt(head, tail);
+    // destroy(head, tail);
+    return 0;
+}
