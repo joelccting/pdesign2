@@ -29,11 +29,11 @@ char pop(void)
 int main()
 {
     char buf[LEN], out[LEN] = {0};
-    int left = 0, right = 0, len, i, idx = 0;
+    int len, i, idx = 0;
 
     scanf("%s", buf);
     buf[strcspn(buf, "\n")] = 0;
-    printf("%s\n", buf);
+    // printf("%s\n", buf);
     len = strlen(buf);
     for (i = 0; i < len; ++i)
     {
