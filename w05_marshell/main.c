@@ -118,3 +118,147 @@ int main()
 }
 
 #endif
+
+#if 0 // 260501 TLE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define LEN (80)
+
+int train[200000];
+
+void f(int a)
+{
+    int idx = 0;
+    while (train[idx] != a)
+    {
+        idx++;
+    }
+
+    while (idx > 0)
+    {
+        train[idx] = train[idx - 1];
+        idx--;
+    }
+    train[0] = a;
+}
+
+void b(int a, int n)
+{
+
+    int idx = 0;
+    while (train[idx] != a)
+    {
+        idx++;
+    }
+    int t = train[idx];
+    while (idx < n - 1)
+    {
+        train[idx] = train[idx + 1];
+        idx++;
+    }
+    train[n - 1] = t;
+}
+
+void a(int x, int y)
+{
+    int idxx = 0;
+    while (train[idxx] != x)
+    {
+        idxx++;
+    }
+    // printf("%d at %d\n", x, idxx);
+    int idxy = 0;
+    while (train[idxy] != y)
+    {
+        idxy++;
+    }
+    // printf("%d at %d\n", y, idxy);
+
+    if (idxx >= idxy)
+    {
+        // printf("[%d] %d %d\n", __LINE__, idxy, idxx);
+        int t = train[idxx];
+        int idx = idxx;
+        while (idx > idxy + 1)
+        {
+            train[idx] = train[idx - 1];
+            --idx;
+        }
+        train[idxy + 1] = t;
+    }
+    else // if (idxx < idxy)
+    {
+        // printf("[%d] %d %d\n", __LINE__, idxx, idxy);
+        int t = train[idxx];
+        int idx = idxx;
+        while (idx < idxy)
+        {
+            train[idx] = train[idx + 1];
+            ++idx;
+        }
+        train[idxy] = t;
+    }
+}
+
+int main()
+{
+    int n, q, arg1, arg2;
+    char str[LEN + 5];
+    char cmd;
+
+    scanf("%d%d%*[^\r\n]", &n, &q);
+    while (getchar() != '\n')
+        ;
+
+    for (int i = 0; i < n; ++i)
+    {
+        train[i] = i + 1;
+    }
+
+    while (q--)
+    {
+        fgets(str, LEN, stdin);
+        str[strcspn(str, "\n")] = 0;
+        char *pch = strtok(str, " ");
+        cmd = pch[0];
+        pch = strtok(NULL, " ");
+        arg1 = atoi(pch);
+
+        if (cmd == 'A')
+        {
+            pch = strtok(NULL, " ");
+            arg2 = atoi(pch);
+        }
+
+        // printf("%c %d %d\n", cmd, arg1, arg2);
+
+        if (cmd == 'F')
+        {
+            f(arg1);
+        }
+        else if (cmd == 'B')
+        {
+            b(arg1, n);
+        }
+        else if (cmd == 'A')
+        {
+            a(arg1, arg2);
+        }
+
+        // for (int i = 0; i < n; ++i)
+        // {
+        //     printf("%d ", train[i]);
+        // }
+        // printf("\n");
+    }
+    for (int i = 0; i < n; ++i)
+    {
+        printf("%d ", train[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+#endif
