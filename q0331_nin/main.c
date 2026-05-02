@@ -2,10 +2,10 @@
 #include <string.h>
 
 typedef unsigned long long ULL;
-#define dbg(fmt, ...) printf("[%d] " fmt, __LINE__, ##__VA_ARGS__)
+#define dbg(fmt, ...) // printf("[%d] " fmt, __LINE__, ##__VA_ARGS__)
 int isValid(char *s)
 {
-    printf("%s\n", s);
+    // printf("%s\n", s);
     const int a[] = {
         10,
         11, 12, 13, 14, 15,
@@ -41,12 +41,29 @@ void count(char *id, int i)
     if (id[i] != '#')
         return count(id, i + 1);
 
-    int start = (i == 1) ? 1 : 0;
-    int end = (i == 1) ? 2 : 9;
-    for (int d = start; d <= end; d++)
-    {
-        id[i] = d + '0';
-        count(id, i + 1);
+    if (i == 0)
+    { // First character must be a letter
+        for (char c = 'A'; c <= 'Z'; c++)
+        {
+            id[i] = c;
+            count(id, i + 1);
+        }
+    }
+    else if (i == 1)
+    { // Second character must be '1' or '2'
+        for (char c = '1'; c <= '2'; c++)
+        {
+            id[i] = c;
+            count(id, i + 1);
+        }
+    }
+    else
+    { // All other positions are digits 0-9
+        for (char c = '0'; c <= '9'; c++)
+        {
+            id[i] = c;
+            count(id, i + 1);
+        }
     }
 
     id[i] = '#';
@@ -54,19 +71,19 @@ void count(char *id, int i)
 
 int main()
 {
-    int pos;
-    int p[30] = {
-        26,
-        2,
-        10,
-        10,
-        10,
-        10,
-        10,
-        10,
-        10,
-        1,
-    };
+    // int pos;
+    // int p[30] = {
+    //     26,
+    //     2,
+    //     10,
+    //     10,
+    //     10,
+    //     10,
+    //     10,
+    //     10,
+    //     10,
+    //     1,
+    // };
     char id[30] = {0};
 
     scanf("%s", id);
@@ -74,7 +91,7 @@ int main()
     dbg("%s\n", id);
     do
     {
-        if (strlen(id) > 10)
+        if (strlen(id) != 10)
         {
             dbg("\n");
             break;
@@ -86,7 +103,7 @@ int main()
             break;
         }
 
-        if (id[1] != '#' && id[1] != 1 && id[1] != 2)
+        if (id[1] != '#' && id[1] != '1' && id[1] != '2')
         {
             dbg("\n");
             break;
@@ -124,6 +141,6 @@ int main()
     } while (0);
 
     // printf("%d", pos);
-    printf("%d", cnt);
+    printf("%llu", cnt);
     return 0;
 }
