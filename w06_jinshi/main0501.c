@@ -1,3 +1,5 @@
+/* by Brute Force
+ */
 #include <stdio.h>
 #include <string.h>
 
