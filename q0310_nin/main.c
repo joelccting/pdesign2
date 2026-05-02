@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
@@ -12,8 +13,15 @@ int main()
 
     char s[20] = {0};
     scanf("%s", s);
+    s[strcspn(s, "\n")] = 0;
 
-    if ((s[0] < 'A') || (s[0] > 'Z'))
+    if (strlen(s) != 10)
+    {
+        printf("No");
+        return 0;
+    }
+
+    if ((s[0] < 'A') || ('Z' < s[0]))
     {
         printf("No");
         return 0;
@@ -34,12 +42,12 @@ int main()
         }
     }
 
-    if (s[10] != 0)
-    {
-        printf("No");
-        return 0;
-    }
-    
+    // if (s[10] != 0)
+    // {
+    //     printf("No");
+    //     return 0;
+    // }
+
     int sum = 0;
 
     // for (int i = 0; i < 10; ++i) printf("%c-", s[i]);

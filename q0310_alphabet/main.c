@@ -5,14 +5,15 @@
 #include <ctype.h>
 
 #define LEN (1010)
-#define dbg(s, b...) //printf(s, ##b)
+#define dbg(s, b...) // printf(s, ##b)
 
 int main()
 {
     char s[LEN];
     char stack[LEN] = {0};
-    int top = 0;
+    int top = -1;
     scanf("%s", s);
+    s[strcspn(s, "\n")] = 0;
 
     int len = strlen(s), i = 0;
     dbg("len=%d\n", len);
@@ -21,28 +22,20 @@ int main()
     //     dbg("%d\n", s[i++]);
     // }
 
-    for (i = 0; i < len; ++i)
+    stack[0] = s[0];
+    top = 0;
+    for (i = 1; i < len; ++i)
     {
-        if (top == 0)
+        if (top > -1 && tolower(s[i]) == tolower(stack[top]))
         {
-            stack[top++] = s[i];
-            stack[top] = 0;
-            continue;
-        }
-
-        if (tolower(s[i]) != tolower(stack[top - 1]))
-        {
-            dbg("push %c\n", s[i]);
-            stack[top++] = s[i];
-            stack[top] = 0;
+            --top;
         }
         else
         {
-            dbg("pop %c\n", stack[top - 1]);
-            stack[--top] = 0;
+            stack[++top] = s[i];
         }
     }
-
+    stack[top + 1] = 0;
     printf("%s", stack);
     return 0;
 }
